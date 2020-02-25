@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <time.h>
+#include <math.h>
 using namespace std;
 void print(int h, int v);
 int func(int c);
@@ -26,7 +26,6 @@ void print(int h, int v) {
 		for (int i = 1; i < totalPixels; i++) {
 			val = func(i);
 			image << val << " " << val << " " << val << endl;
-			cout << i << endl;
 		}
 		image.close();
 		cout << "Image saved as image.ppm." << endl;
@@ -38,19 +37,23 @@ void print(int h, int v) {
 		system("pause");
 	}
 }
-int func(int c) {
-	const int MAX_ITER = 256;
-	int f[255];
-	f[0] = 0;
-	for (int i = 1; i <= MAX_ITER; i++) {
-		f[i] = (f[i - 1] * f[i - 1]) + c;
+int func(int c)
+{
+  double f[255];
+  f[0] = 0;
+  for (int i = 1; i <= 256; i++)
+    {
+      f[i] = (f[i - 1] * f[i - 1]) + c;
+    }
+  bool diverge = false;
+  for (int i = 0; i <= 256; i++)
+    {
+      if (isinf (f[i]) == 1)
+	{
+	  diverge = true;
+	  return i;
 	}
-	bool div = false;
-	for (int i = 0; i < MAX_ITER; i++) {
-		if (f[i] >= f[i + 1]){
-			div = true;
-			return i;
-		}
-	}
-	return f[255] % 256;
+    }
+    int v = static_cast<int>(f[255]);
+    return v % 256;
 }
