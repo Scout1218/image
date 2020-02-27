@@ -41,12 +41,12 @@ int func(int c)
 {
   double f[255];
   f[0] = 0;
-  for (int i = 1; i <= 256; i++)
+  for (int i = 1; i < 255; i++)
     {
       f[i] = (f[i - 1] * f[i - 1]) + c;
     }
   bool diverge = false;
-  for (int i = 0; i <= 256; i++)
+  for (int i = 0; i < 255; i++)
     {
       if (isinf (f[i]) == 1)
 	{
@@ -57,3 +57,4 @@ int func(int c)
     int v = static_cast<int>(f[255]);
     return v % 256;
 }
+
